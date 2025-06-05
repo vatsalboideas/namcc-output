@@ -586,7 +586,7 @@ $dark-gray: #212529;
         display: block;
       }
       .hero-image {
-        aspect-ratio: 4/5;
+        aspect-ratio: 3/4;
 
         width: 100%;
         height: auto;
@@ -599,7 +599,7 @@ $dark-gray: #212529;
         width: 100%;
         height: auto;
         object-fit: cover;
-        aspect-ratio: 4/5;
+        aspect-ratio: 3/4;
         z-index: 1; // Ensure the cover image is behind other content
       }
     }
