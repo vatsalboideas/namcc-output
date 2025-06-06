@@ -22,8 +22,10 @@ $dark-gray: #212529;
 .india-weekend {
   /* Center play button */
   .video-js {
-    width: 100% !important;
-    height: 100% !important;
+    background-color: #fff;
+  }
+  .vjs-poster {
+    background-color: #fff;
   }
   .vjs-big-play-button {
     top: 50% !important;
@@ -79,12 +81,13 @@ $dark-gray: #212529;
   }
   .hero-section {
     position: relative;
+    height: 80vh;
     .hero-image {
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 21/9;
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
-      object-position: bottom;
+      object-position: center;
     }
     .cover-image {
       position: absolute;
@@ -168,7 +171,7 @@ $dark-gray: #212529;
   }
 
   .nmacc-nw-video-section {
-    padding: px-to-rem(100) 0 0;
+    padding: px-to-rem(100) 0;
     .text-up {
       position: relative;
       height: 2px;
@@ -192,12 +195,34 @@ $dark-gray: #212529;
       color: $light-gray;
       font-weight: 300;
     }
-    .nmacc-nw-video {
+
+    .nmacc-nw-video-wrapper {
       margin-top: px-to-rem(60);
-      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: calc(100vh - 100px); /* Ensures the wrapper has height */
+      // background-color: #000; /* Optional for contrast */
+      height: 100%;
+      width: auto;
+    }
+
+    .nmacc-nw-video {
+      width: 100%;
+      height: 100%;
+      // height: 500px;
+      max-height: calc(100vh - 100px);
+      // max-width: ; /* Optional: for large screens */
       aspect-ratio: 16 / 9;
       position: relative;
+      .video-js {
+        object-fit: contain;
+        height: 100%;
+        width: 100%;
+        display: block;
+      }
     }
+
     .nmacc-nw-video-mute-button {
       position: absolute;
       bottom: px-to-rem(60);
@@ -564,6 +589,57 @@ $dark-gray: #212529;
       line-height: 1.7px;
       font-weight: 400;
     }
+  }
+
+  .nma-modal .modal-dialog {
+    max-width: 90vw;
+    max-height: 90vh;
+    margin: 1.75rem auto;
+  }
+
+  .nma-modal .modal-content {
+    height: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nma-modal .modal-header {
+    flex-shrink: 0;
+    padding: 0.5rem 1rem;
+    border-bottom: none;
+  }
+
+  .nma-modal .modal-body {
+    flex: 1;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Video container with 16:9 aspect ratio */
+  .video-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    background: #000;
+  }
+
+  /* 16:9 aspect ratio container */
+  .video-container::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%; /* 16:9 aspect ratio (9/16 * 100) */
+  }
+
+  .video-container .video-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 

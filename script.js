@@ -4,11 +4,93 @@ $(document).ready(function () {
   if (nmaModalVideoEl && typeof videojs !== "undefined") {
     const nmaModalVideo = videojs("my-video-nma-modal");
 
-    $("#nma-about-modal").on("hidden.bs.modal", function () {
+    $(".nma-modal").on("hidden.bs.modal", function () {
       nmaModalVideo.pause();
       nmaModalVideo.currentTime(0); // Optional: rewind to beginning
     });
   }
+
+  let player;
+
+  // Initialize video player when modal is shown
+  $(".nma-modal").on("shown.bs.modal", function () {
+    if (!player) {
+      player = videojs("my-video-nma-modal", {
+        fluid: false,
+        responsive: true,
+        aspectRatio: "16:9",
+        playbackRates: [0.5, 1, 1.25, 1.5, 2],
+        controls: true,
+        preload: "auto",
+      });
+    }
+
+    // Adjust modal size based on screen height
+    adjustModalSize();
+  });
+
+  // Clean up video player when modal is hidden
+  $(".nma-modal").on("hidden.bs.modal", function () {
+    if (player) {
+      player.pause();
+    }
+  });
+
+  // Adjust modal size on window resize
+  $(window).on("resize", function () {
+    if ($(".nma-modal").hasClass("show")) {
+      adjustModalSize();
+    }
+  });
+
+  function adjustModalSize() {
+    const modal = $(".nma-modal");
+    const modalDialog = modal.find(".modal-dialog");
+    const modalContent = modal.find(".modal-content");
+    const videoContainer = modal.find(".video-container");
+
+    const windowHeight = $(window).height();
+    const windowWidth = $(window).width();
+
+    // Calculate maximum dimensions based on screen size
+    const maxModalHeight = windowHeight * 0.9;
+    const maxModalWidth = windowWidth * 0.9;
+
+    // Calculate video dimensions maintaining 16:9 ratio
+    let videoWidth = maxModalWidth;
+    let videoHeight = videoWidth * (9 / 16);
+
+    // If calculated height exceeds max height, adjust based on height
+    if (videoHeight > maxModalHeight - 60) {
+      // 60px buffer for header
+      videoHeight = maxModalHeight - 60;
+      videoWidth = videoHeight * (16 / 9);
+    }
+
+    // Apply calculated dimensions
+    modalDialog.css({
+      "max-width": videoWidth + "px",
+      width: videoWidth + "px",
+    });
+
+    modalContent.css({
+      height: videoHeight + 60 + "px", // Add header height
+    });
+
+    // For very short screens, make additional adjustments
+    if (windowHeight <= 480) {
+      modalDialog.css("margin", "0.25rem auto");
+    } else if (windowHeight <= 600) {
+      modalDialog.css("margin", "0.5rem auto");
+    }
+  }
+
+  var player2 = videojs('vid1video-js', {
+  breakpoints: {
+    medium: 500
+  }
+});
+
   // Optional: Mute toggle logic
   try {
     const playerEl = document.getElementById("my-video-showreel-video");
